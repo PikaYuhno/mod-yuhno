@@ -1,7 +1,11 @@
 import { Sequelize } from 'sequelize';
 
-export const sequelize = new Sequelize('modyuhno_data', 'postgres', 'postgres', {
-    host: 'localhost',
-    dialect: 'postgres',
-    logging: false
-});
+export const createConnection = () => {
+    let conn = new Sequelize('postgres', 'postgres', 'postgres', {
+        host: 'db',
+        dialect: 'postgres',
+        logging: false
+    });
+    return conn;
+}
+export const sequelize = createConnection();

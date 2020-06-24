@@ -4,20 +4,26 @@ This should be a moderation bot written in TypeScript.
 
 ## Commands
 ### Info
-- [X] `avatar | avatar [mention|userid|name]` <br />
-- [X] `ping` <br />
-- [X] `prefix | prefix [newPrefix]` <br />
+- [X] `avatar | avatar [mention|userid|name]` 
+- [X] `ping`
+- [ ] `userinfo | userinfo [mention|userid|name]`
+- [ ] `serverinfo`
+- [ ] `settings`
+
+### Bot Owner
+- [ ] `eval [code]`
+- [ ] `servers`
+- [ ] `leave [serverid]`
+
+### Configuration
+- [X] `prefix | prefix [newPrefix]`
+- [ ] `messagelog [channelid]`
 
 ### Moderation
-- [ ] `ban [mention|userid|name] [reason]`
-
-### Solar System Exploration, 1950s – 1960s 
-- [ ] Mercury
-- [ x ] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+- [X] `ban [mention|userid] [reason]`
+- [X] `unban [mention|userid]`
+- [X] `kick [mention|userid|name] [reason]`
+- [ ] `mute [mention|userid|name] [duration] [reason]`
+- [ ] `unmute [mention|userid|name]`
+- [ ] `softban [mention|userid|name] [reason]`
+- [ ] `clear [parameter]`

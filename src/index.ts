@@ -17,6 +17,9 @@ const connectionTest = async () => {
         } catch (error) {
             console.error(error);
             retries -= 1;
+            await (new Promise((res, rej) => {
+                setTimeout(res, 2000);
+            }));
         }
     }
 }

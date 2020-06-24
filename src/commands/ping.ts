@@ -1,4 +1,5 @@
 import { Client, Message, Permissions } from 'discord.js';
+import {Constants} from '../utils/utils';
 //Command: 
 /**
  * private _client: Client;
@@ -18,8 +19,8 @@ export default class Ping {
     private _message: Message;
     public requiredPermission: any = Permissions.FLAGS.SEND_MESSAGES;
 
-    private _help: string;
-    private _example: Array<string> = [
+    public _help: string = "Get a bo ping measurement";
+    public _example: Array<string> = [
         "ping"
     ];
 
@@ -31,7 +32,8 @@ export default class Ping {
 
     public async run() {
         const sentMsg: Message = await this._message.channel.send("Pong ?");
-        sentMsg.edit(`Pong! Latency: ${sentMsg.createdTimestamp - this._message.createdTimestamp}ms. Your server configuration: ${JSON.stringify(this._client['guildConfig'].get(this._message.guild.id))}`);
+        //sentMsg.edit(`Pong! Latency: ${sentMsg.createdTimestamp - this._message.createdTimestamp}ms. Your server configuration: ${JSON.stringify(this._client['guildConfig'].get(this._message.guild.id))}`);
+        sentMsg.edit(`${Constants.PREFIX_SUCCESS} Pong! Latency: ${sentMsg.createdTimestamp - this._message.createdTimestamp}ms. API Latency is ${Math.round(this._message.client.ws.ping)}ms`);
     }
 
 }

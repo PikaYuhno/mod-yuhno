@@ -24,3 +24,8 @@ export const verifyDatabase = async (client: Client) => {
         }
     }
 }
+
+export const Constants = {
+    "PREFIX_SUCCESS": "\\🟢",
+    "PREFIX_FAILURE": "\\🔴"
+}

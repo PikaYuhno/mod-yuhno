@@ -1,32 +1,38 @@
-import { Message, Client } from 'discord.js';
-import fs from 'fs';
-import path from 'path';
-import util from 'util';
-const readdir = util.promisify(fs.readdir);
+import { Message, Client } from "discord.js";
+import dotenv from "dotenv";
+dotenv.config();
+import { Constants } from "../utils/utils";
 
 export default async (client: Client, message: Message) => {
     if (message.author.bot) return;
+    if (!message.guild) return;
     console.log("-----------Messge------------\n");
-    let prefix = client['guildConfig'].get(message.guild.id).prefix;
+    let prefix = client["guildConfig"].get(message.guild.id).prefix;
     console.log("Prefix:", prefix);
-    console.log("Config", client['guildConfig'].get(message.guild.id));
+    console.log("Config", client["guildConfig"].get(message.guild.id));
 
     if (!message.content.startsWith(prefix)) return;
 
     let args = message.content.slice(prefix.length).trim().split(/\s+/g);
     let cmd = args.shift().toLowerCase();
-    try {
-        const files = await readdir(path.resolve(__dirname, "../commands"));
-        if (!files.map(file => file.split(/\./g)[0]).includes(cmd)) return;
-    } catch (error) {
-        console.error(error);
-    }
+
+    //Check if command exist
+    if (!client["commands"].find((c) => c.name === cmd)) return;
 
     console.log("Command:", cmd, "Args:", args);
     const Command = (await import(`../commands/${cmd}`)).default;
     const c = new Command(client, args, message);
-    if ((typeof c.requiredPermission !== 'string' && message.member.hasPermission(c.requiredPermission))
-        || typeof c.requiredPermission === 'string' && c.requiredPermission === 'BOT_OWNER') {
+    if (
+        (typeof c.requiredPermission !== "string" &&
+            message.member.hasPermission(c.requiredPermission)) ||
+        (typeof c.requiredPermission === "string" &&
+            c.requiredPermission === "BOT_OWNER" &&
+            process.env.BOT_OWNER === message.author.id)
+    ) {
         c.run();
+    } else {
+        message.channel.send(
+            `${Constants.PREFIX_FAILURE} You don't have the permission to execute this command!`
+        );
     }
-}
+};

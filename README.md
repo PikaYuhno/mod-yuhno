@@ -1,23 +1,25 @@
 # ModYuhno
 
-This should be a moderation bot written in TypeScript. 
+This should be a moderation bot written in TypeScript.
 
 ## Commands
 ### Info
-- [X] `avatar | avatar [mention|userid|name]` 
+- [X] `avatar | avatar [mention|userid|name]`
 - [X] `ping`
-- [ ] `userinfo | userinfo [mention|userid|name]`
-- [ ] `serverinfo`
+- [X] `userinfo | userinfo [mention|userid|name]`
+- [X] `serverinfo`
 - [ ] `settings`
+- [X] `help | help [commandname]`
 
 ### Bot Owner
-- [ ] `eval [code]`
-- [ ] `servers`
-- [ ] `leave [serverid]`
+- [X] `eval [code]`
+- [X] `guilds`
+- [X] `leave [serverid]`
 
 ### Configuration
 - [X] `prefix | prefix [newPrefix]`
 - [ ] `messagelog [channelid]`
+- [X] `muterole [id]`
 
 ### Moderation
 - [X] `ban [mention|userid] [reason]`
@@ -25,5 +27,9 @@ This should be a moderation bot written in TypeScript.
 - [X] `kick [mention|userid|name] [reason]`
 - [ ] `mute [mention|userid|name] [duration] [reason]`
 - [ ] `unmute [mention|userid|name]`
-- [ ] `softban [mention|userid|name] [reason]`
-- [ ] `clear [parameter]`
+- [X] `softban [mention|userid|name] [reason]`
+- [X] `clear [parameter]`
+- [X] `lock [channelid]`
+- [X] `unlock [channelid]`
+
+### Schedules

@@ -1,5 +1,5 @@
-import { sequelize } from '../connection/dbconnection';
-import { Model, DataTypes } from 'sequelize'
+import { sequelize } from "../connection/dbconnection";
+import { Model, DataTypes } from "sequelize";
 export default class Configuration extends Model {
     public id: number;
     public guildId: string;
@@ -8,27 +8,30 @@ export default class Configuration extends Model {
     public updatedAt: Date;
 }
 let defaultConfig = JSON.stringify({
-    "prefix": "$",
-    "muted_role": "",
-    "message_log": ""
+    prefix: "$",
+    muted_role: "",
+    message_log: "",
 });
 
-Configuration.init({
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+Configuration.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        guildId: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+        },
+        config: {
+            type: DataTypes.STRING(255),
+            defaultValue: defaultConfig,
+        },
     },
-    guildId: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    config: {
-        type: DataTypes.STRING(255),
-        defaultValue: defaultConfig
+    {
+        sequelize,
+        tableName: "configurations",
     }
-}, {
-    sequelize,
-    tableName: 'configurations'
-});
+);
 Configuration.sync();

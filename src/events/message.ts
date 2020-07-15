@@ -10,6 +10,10 @@ export default async (client: Client, message: Message) => {
     let prefix = client["guildConfig"].get(message.guild.id).prefix;
     console.log("Prefix:", prefix);
     console.log("Config", client["guildConfig"].get(message.guild.id));
+    if (message.mentions.users.has(client.user.id))
+        return message.reply(
+            `My Prefix is \`${prefix}\`, try \`${prefix}help\` for more information`
+        );
 
     if (!message.content.startsWith(prefix)) return;
 

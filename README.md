@@ -8,7 +8,7 @@ This should be a moderation bot written in TypeScript.
 - [X] `ping`
 - [X] `userinfo | userinfo [mention|userid|name]`
 - [X] `serverinfo`
-- [ ] `settings`
+- [X] `settings`
 - [X] `help | help [commandname]`
 
 ### Bot Owner
@@ -18,7 +18,7 @@ This should be a moderation bot written in TypeScript.
 
 ### Configuration
 - [X] `prefix | prefix [newPrefix]`
-- [ ] `messagelog [channelid]`
+- [X] `messagelog [channelid]`
 - [X] `muterole [id]`
 
 ### Moderation

@@ -62,4 +62,6 @@ export const Constants = {
     PREFIX_SUCCESS: "\\🟢",
     PREFIX_FAILURE: "\\🔴",
     BULLET_POINT: "🔸",
+    DELETED: "🟥",
+    UPDATED: "🟨",
 };

@@ -48,11 +48,8 @@ export default class Ban {
         }
         try {
             const code = this._args.join(" ");
-            let evaled = eval(this.clean(code));
-            if (typeof evaled !== "string") {
-                evaled = require("util").inspect(evaled);
-            }
-            this._message.channel.send(evaled, { code: "xl" }).catch((err) => {
+            let m = await Promise.resolve(eval(this.clean(code)));
+            this._message.channel.send(m, { code: "xl" }).catch((err) => {
                 this._message.channel.send(
                     `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``
                 );

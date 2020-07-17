@@ -49,6 +49,9 @@ export default class Ban {
         try {
             const code = this._args.join(" ");
             let m = await Promise.resolve(eval(this.clean(code)));
+            if (typeof m === "object") {
+                m = JSON.stringify(m, null, 2);
+            }
             this._message.channel.send(m, { code: "xl" }).catch((err) => {
                 this._message.channel.send(
                     `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``

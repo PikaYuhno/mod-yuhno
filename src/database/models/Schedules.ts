@@ -1,8 +1,7 @@
-import { sequelize } from '../connection/dbconnection';
-import { Model, DataTypes } from 'sequelize'
+import { sequelize } from "../connection/dbconnection";
+import { Model, DataTypes } from "sequelize";
 
 export default class Schedules extends Model {
-
     public id: number;
     public guildId: String;
     public userId: String;
@@ -11,25 +10,30 @@ export default class Schedules extends Model {
     public updatedAt: Date;
 }
 
-Schedules.init({
-    id: {
-        type: DataTypes.NUMBER,
-        primaryKey: true,
-        allowNull: false
+Schedules.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            autoIncrement: true,
+        },
+        guildId: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+        },
+        userId: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+        },
+        finish: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
     },
-    guildId: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    userId: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    finish: {
-        type: DataTypes.DATE,
-        allowNull: false,
+    {
+        sequelize,
+        tableName: "schedules",
     }
-},  {
-    sequelize,
-    tableName: 'schedules'
-});
+);
+Schedules.sync();

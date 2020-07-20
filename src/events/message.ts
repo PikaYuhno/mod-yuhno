@@ -35,7 +35,8 @@ export default async (client: Client, message: Message) => {
     ) {
         c.run();
     } else {
-        message.channel.send(
+        console.log("Dont' have permissnio");
+        return message.channel.send(
             `${Constants.PREFIX_FAILURE} You don't have the permission to execute this command!`
         );
     }

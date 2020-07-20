@@ -4,7 +4,7 @@ import env from "dotenv";
 env.config();
 import fs from "fs";
 import path from "path";
-import { registerCommands } from "./utils/utils";
+import { registerCommands, runAllCrons } from "./utils/utils";
 import {
     sequelize,
     createConnection,
@@ -30,6 +30,7 @@ const connectionTest = async () => {
 (() => {
     connectionTest();
     registerCommands(client);
+    runAllCrons(client);
     fs.readdir(path.resolve(__dirname, "events"), async (err, files) => {
         if (err) throw err;
         for (let i = 0; i < files.length; i++) {

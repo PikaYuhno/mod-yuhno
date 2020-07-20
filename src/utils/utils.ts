@@ -132,11 +132,12 @@ export const unMuteUser = async (
     member: GuildMember,
     guildId: string
 ) => {
-    member.roles.remove(mutedRole);
+    await member.roles.remove(mutedRole);
     await Schedules.destroy({ where: { guildId, userId: member.id } });
     let index = crons.findIndex(
         (el) => el.guildId === guildId && el.userId === member.id
     );
+    if (!index) return;
     crons.splice(index, 1);
 };
 

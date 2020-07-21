@@ -53,7 +53,7 @@ export default class Unmute {
             );
         }
 
-        if (guildMember.roles.cache.find((r) => r.id !== mutedRole.id)) {
+        if (!guildMember.roles.cache.find((r) => r.id === mutedRole.id)) {
             return this._message.channel.send(
                 `${Constants.PREFIX_FAILURE} ${guildMember.user.tag} is not muted!`
             );

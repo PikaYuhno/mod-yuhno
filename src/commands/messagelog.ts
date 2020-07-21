@@ -21,7 +21,7 @@ export default class MessageLog {
     public _category: string = "configuration";
 
     public _help: string = "Sets the channel for the message log";
-    public _example: Array<string> = ["messagelog", "messagelog [channelid|"];
+    public _example: Array<string> = ["messagelog [channelid|"];
 
     constructor(client: Client, args: Array<string>, message: Message) {
         this._client = client;
@@ -30,7 +30,7 @@ export default class MessageLog {
     }
 
     public async run() {
-        const channelId = this._args[0] || this._message.channel.id;
+        const channelId = this._args[0];
         const channel = this._message.guild.channels.cache.get(channelId);
         if (!channel)
             return this._message.channel.send(

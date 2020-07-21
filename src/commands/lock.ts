@@ -20,7 +20,7 @@ export default class Lock {
     public _category: string = "moderation";
 
     public _help: string = "Locks a textchannel";
-    public _example: Array<string> = ["lock", "lock [channelid|"];
+    public _example: Array<string> = ["lock [channelid|"];
 
     constructor(client: Client, args: Array<string>, message: Message) {
         this._client = client;
@@ -29,7 +29,7 @@ export default class Lock {
     }
 
     public async run() {
-        const channelId = this._args[0] || this._message.channel.id;
+        const channelId = this._args[0];
         const channel = this._message.guild.channels.cache.get(channelId);
         if (!channel)
             return this._message.channel.send(

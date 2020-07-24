@@ -18,7 +18,7 @@ export default async (client: Client, deletedMessage: Message) => {
     let currentDate = new Date(Date.now());
     let date = `\`[${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}]\``;
 
-    let msg = `${date} ${Constants.DELETED} **${deletedMessage.author.tag}** (ID: ${deletedMessage.author.id}) __deleted__ a message in <#${deletedMessage.channel.id}>:\n\n`;
+    let msg = `${date} ${Constants.DELETED} **${deletedMessage.author.tag}** (ID: ${deletedMessage.author.id})'s message has been __deleted__ from <#${deletedMessage.channel.id}>:\n\n`;
     msg += `\`${deletedMessage.content}\``;
     channel.send(msg);
 };

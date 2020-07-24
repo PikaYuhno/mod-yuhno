@@ -10,6 +10,9 @@ This should be a moderation bot written in TypeScript.
 - [X] `serverinfo`
 - [X] `settings`
 - [X] `help | help [commandname]`
+- [ ] `roleinfo [roleid|rolename]`
+- [ ] `about`
+- [ ] `invite`
 
 ### Bot Owner
 - [X] `eval [code]`
@@ -20,16 +23,22 @@ This should be a moderation bot written in TypeScript.
 - [X] `prefix | prefix [newPrefix]`
 - [X] `messagelog [channelid]`
 - [X] `muterole [id]`
+- [ ] `modlog [channelid]`
+- [ ] `joinlog [channelid]`
+- [ ] `leavelog [channelid]`
+- [ ] `avatarlog [channelid]`
+
 
 ### Moderation
 - [X] `ban [mention|userid] [reason]`
 - [X] `unban [mention|userid]`
 - [X] `kick [mention|userid|name] [reason]`
-- [ ] `mute [mention|userid|name] [duration] [reason]`
-- [ ] `unmute [mention|userid|name]`
+- [X] `mute [mention|userid|name] [duration] [reason]`
+- [X] `unmute [mention|userid|name]`
 - [X] `softban [mention|userid|name] [reason]`
 - [X] `clear [parameter]`
 - [X] `lock [channelid]`
 - [X] `unlock [channelid]`
+- [ ] `voicemove [channelid]`
 
-### Schedules
+

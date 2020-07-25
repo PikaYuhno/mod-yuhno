@@ -36,7 +36,7 @@ This should be a moderation bot written in TypeScript.
 - [X] `mute [mention|userid|name] [duration] [reason]`
 - [X] `unmute [mention|userid|name]`
 - [X] `softban [mention|userid|name] [reason]`
-- [X] `clear [parameter]`
+- [X] `clear [parameter]` `Note: save deleted messages`
 - [X] `lock [channelid]`
 - [X] `unlock [channelid]`
 - [ ] `voicemove [channelid]`

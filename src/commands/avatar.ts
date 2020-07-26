@@ -38,8 +38,7 @@ export default class Avatar {
             );
         const embed = new MessageEmbed()
             .setTitle(`${user.tag}'s avatar`)
-            .setImage(user.avatarURL());
+            .setImage(user.avatarURL({ dynamic: true, size: 1024 }));
         this._message.channel.send(embed);
     }
 }
-

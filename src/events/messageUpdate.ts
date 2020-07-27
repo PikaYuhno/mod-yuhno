@@ -10,6 +10,7 @@ export default async (
 ) => {
     if (newMessage.author.bot) return;
     if (!newMessage.guild) return;
+    if (oldMessage.content === newMessage.content) return;
     let guildConfig = client["guildConfig"].get(newMessage.guild.id);
     if (!guildConfig) return;
     if (!guildConfig["message_log"]) return;

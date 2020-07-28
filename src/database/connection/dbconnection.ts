@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 
 export const createConnection = () => {
     let conn = new Sequelize("postgres", "postgres", "postgres", {
-        host: "localhost",
+        host: "db",
         dialect: "postgres",
         logging: false,
     });

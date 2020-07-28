@@ -15,7 +15,7 @@ export default async (client: Client, message: Message) => {
     const prefixRegex = new RegExp(
         `^(<@!?${client.user.id}>|${escapeRegex(prefix)})\\s*`
     );
-    if (!prefixRegex.test(message.content))
+    if (prefixRegex.test(message.content))
         return message.reply(
             `My Prefix is \`${prefix}\`, try \`${prefix}help\` for more information`
         );

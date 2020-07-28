@@ -11,10 +11,9 @@ export default async (client: Client, message: Message) => {
     console.log("Prefix:", prefix);
     console.log("Config", client["guildConfig"].get(message.guild.id));
 
-    const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const prefixRegex = new RegExp(
-        `^(<@!?${client.user.id}>|${escapeRegex(prefix)})\\s*`
-    );
+    const escapeRegex = (str: string) =>
+        str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const prefixRegex = new RegExp(`^<@!${client.user.id}>\s*$`);
     if (prefixRegex.test(message.content))
         return message.reply(
             `My Prefix is \`${prefix}\`, try \`${prefix}help\` for more information`

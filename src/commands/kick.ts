@@ -47,10 +47,16 @@ export default class Kick {
                 `${Constants.PREFIX_FAILURE} User was not found.`
             );
 
-        const kickedMember: GuildMember = await user.kick(reason);
+        let kickedMember: GuildMember;
+        try {
+            kickedMember = await user.kick(reason);
+        } catch (error) {
+            return this._message.channel.send(
+                `${Constants.PREFIX_FAILURE} I am lacking the permissions to do that!`
+            );
+        }
         this._message.channel.send(
             `${Constants.PREFIX_SUCCESS} ${kickedMember.user.tag} was successfully kicked!`
         );
     }
 }
-

@@ -39,6 +39,6 @@ This should be a moderation bot written in TypeScript.
 - [X] `clear [parameter]` `Note: save deleted messages`
 - [X] `lock [channelid]`
 - [X] `unlock [channelid]`
-- [ ] `voicemove [channelid]`
+- [X] `voicemove [channelid]`
 
 

@@ -9,6 +9,8 @@ import {
     sequelize,
     createConnection,
 } from "./database/connection/dbconnection";
+import util from "util";
+const readdir = util.promisify(fs.readdir);
 
 const connectionTest = async () => {
     let retries = 5;
@@ -25,6 +27,20 @@ const connectionTest = async () => {
             });
         }
     }
+};
+
+const readCommands = async () => {
+    let commands = new Map();
+    let categories = await readdir(path.resolve(__dirname, "commands"));
+    console.log("Categories:", categories);
+    //for (let i = 0; i < categories.length; i++) {}
+    /**fs.readdir(path.resolve(__dirname, "commands"), async (err, files) => {
+        if (err) throw err;
+        for (let i = 0; i < files.length; i++) {
+            let commandName = files[i].split(".")[0] as string;
+            commands.set(commandName);
+        }
+    });*/
 };
 
 (() => {

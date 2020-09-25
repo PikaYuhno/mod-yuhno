@@ -6,7 +6,7 @@ export default class Random {
     private _client: Client;
     private _args: Array<string>;
     private _message: Message;
-    public requiredPermission: any = Permissions.FLAGS.BAN_MEMBERS;
+    public requiredPermission: any = Permissions.FLAGS.SEND_MESSAGES;
     public _category: string = "other";
 
     public _help: string = "Picks a random member";

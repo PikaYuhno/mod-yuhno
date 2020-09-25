@@ -1,11 +1,5 @@
-import {
-    Client,
-    Message,
-    MessageEmbed,
-    GuildMember,
-    Permissions,
-} from "discord.js";
-import { Constants } from "../utils/utils";
+import { Client, Message, MessageEmbed, Permissions } from "discord.js";
+import { Constants } from "../../utils/";
 //Command:
 /**
  * private _client: Client;
@@ -40,7 +34,8 @@ export default class Help {
             return;
         }
         let fields = [];
-        const categories = ["info", "moderation", "configuration"];
+        //const categories = ["info", "moderation", "configuration"];
+        const categories = this._client["categories"];
 
         let commands = this._client["commands"];
         for (let i = 0; i < categories.length; i++) {

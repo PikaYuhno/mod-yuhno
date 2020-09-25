@@ -1,18 +1,18 @@
 import { Message, Client } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
-import { Constants } from "../utils/utils";
+import { Constants } from "../utils/";
 
 export default async (client: Client, message: Message) => {
     if (message.author.bot) return;
     if (!message.guild) return;
-    console.log("-----------Messge------------\n");
+    //    console.log("-----------Messge------------\n");
     let prefix = client["guildConfig"].get(message.guild.id).prefix;
-    console.log("Prefix:", prefix);
-    console.log("Config", client["guildConfig"].get(message.guild.id));
+    //    console.log("Prefix:", prefix);
+    //    console.log("Config", client["guildConfig"].get(message.guild.id));
 
-    const escapeRegex = (str: string) =>
-        str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    /**const escapeRegex = (str: string) =>
+        str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");*/
     const prefixRegex = new RegExp(`^<@!${client.user.id}>\s*$`);
     if (prefixRegex.test(message.content))
         return message.reply(
@@ -27,8 +27,10 @@ export default async (client: Client, message: Message) => {
     //Check if command exist
     if (!client["commands"].find((c) => c.name === cmd)) return;
 
-    console.log("Command:", cmd, "Args:", args);
-    const Command = (await import(`../commands/${cmd}`)).default;
+    //   console.log("Command:", cmd, "Args:", args);
+    const Command = (
+        await import(client["commands"].find((c) => c.name === cmd).path)
+    ).default;
     const c = new Command(client, args, message);
     if (
         (typeof c.requiredPermission !== "string" &&
@@ -39,7 +41,9 @@ export default async (client: Client, message: Message) => {
     ) {
         c.run();
     } else {
-        console.log("Dont' have permissnio");
+        console.log(
+            `User: ${message.member.user} doesn't have the Permission!`
+        );
         return message.channel.send(
             `${Constants.PREFIX_FAILURE} You don't have the permission to execute this command!`
         );

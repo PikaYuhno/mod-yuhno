@@ -1,5 +1,5 @@
 import { Client, Message, Permissions, GuildMember, User } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Constants } from "../../utils/";
 //Command:
 /**
  * private _client: Client;
@@ -12,17 +12,17 @@ import { Constants } from "../utils/utils";
  *
  * public async run();
  */
-export default class Softban {
+export default class Ban {
     private _client: Client;
     private _args: Array<string>;
     private _message: Message;
     public requiredPermission: any = Permissions.FLAGS.BAN_MEMBERS;
     public _category: string = "moderation";
 
-    public _help: string = "Bans a user and then unbanns him";
+    public _help: string = "Bans a user";
     public _example: Array<string> = [
-        "softban [mention|id]",
-        "softban [mention|id] [reason]",
+        "ban [mention|id]",
+        "ban [mention|id] [reason]",
     ];
 
     constructor(client: Client, args: Array<string>, message: Message) {
@@ -49,14 +49,14 @@ export default class Softban {
             );
         try {
             await this._message.guild.members.ban(user, { reason });
-            await this._message.guild.members.unban(user, "Unban Softban");
         } catch (error) {
             return this._message.channel.send(
-                `${Constants.PREFIX_FAILURE} Something went wrong...`
+                `${Constants.PREFIX_FAILURE} I don't have the permissions to do that!`
             );
         }
         this._message.channel.send(
-            `${Constants.PREFIX_SUCCESS} ${user.tag} was successfully softbanned!`
+            `${Constants.PREFIX_SUCCESS} ${user.tag} was successfully banned!`
         );
     }
 }
+

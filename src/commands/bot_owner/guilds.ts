@@ -1,5 +1,5 @@
-import { Client, Message, MessageEmbed, GuildMember, User } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Client, Message, MessageEmbed } from "discord.js";
+import { Constants } from "../../utils/";
 //Command:
 /**
  * private _client: Client;

@@ -1,7 +1,7 @@
 import { Message, Client, TextChannel } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
-import { Constants } from "../utils/utils";
+import { Constants } from "../utils/";
 
 export default async (
     client: Client,

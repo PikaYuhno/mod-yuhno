@@ -8,7 +8,7 @@ export const createConnection = () => {
         process.env.DB_USER,
         process.env.DB_PASSWORD,
         {
-            host: "db",
+            host: process.env.DB_HOST,
             dialect: "postgres",
             logging: false,
         }

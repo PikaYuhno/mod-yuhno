@@ -1,13 +1,5 @@
-import {
-    Client,
-    Message,
-    Permissions,
-    GuildMember,
-    User,
-    MessageEmbed,
-    PresenceStatus,
-} from "discord.js";
-import { Constants } from "../utils/utils";
+import { Client, Message, Permissions, MessageEmbed } from "discord.js";
+import { Constants } from "../../utils/";
 //Command:
 /**
  * private _client: Client;

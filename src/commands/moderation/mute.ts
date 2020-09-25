@@ -4,8 +4,7 @@ import {
     timeConverter,
     runCronJob,
     dateToPattern,
-} from "../utils/utils";
-import Configuration from "../database/models/Configuration";
+} from "../../utils/";
 //Command:
 /**
  * private _client: Client;

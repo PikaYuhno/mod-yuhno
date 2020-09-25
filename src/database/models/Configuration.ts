@@ -4,6 +4,7 @@ export default class Configuration extends Model {
     public id: number;
     public guildId: string;
     public config: string;
+    public default_role: string;
     public createdAt: Date;
     public updatedAt: Date;
 }
@@ -11,6 +12,7 @@ let defaultConfig = JSON.stringify({
     prefix: "$",
     muted_role: "",
     message_log: "",
+    default_role: "",
 });
 
 Configuration.init(

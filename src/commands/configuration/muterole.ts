@@ -1,5 +1,5 @@
-import { Guild, Client, Message, Permissions, MessageEmbed } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Guild, Client, Message, Permissions } from "discord.js";
+import { Constants } from "../../utils/";
 
 export default class MuteRole {
     private _client: Client;

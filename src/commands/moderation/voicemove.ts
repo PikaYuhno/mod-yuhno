@@ -1,5 +1,5 @@
 import { Client, Message, Permissions, VoiceChannel } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Constants } from "../../utils/";
 
 export default class VoiceMove {
     private _client: Client;

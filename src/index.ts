@@ -1,15 +1,17 @@
 import { Client, ClientEvents } from "discord.js";
-const client = new Client();
 import env from "dotenv";
-env.config();
 import fs from "fs";
 import path from "path";
-import { registerCommands, runAllCrons } from "./utils/utils";
+import { registerCommands, runAllCrons } from "./utils/";
 import {
     sequelize,
     createConnection,
 } from "./database/connection/dbconnection";
 import util from "util";
+
+const client = new Client();
+env.config();
+
 const readdir = util.promisify(fs.readdir);
 
 const connectionTest = async () => {
@@ -20,27 +22,13 @@ const connectionTest = async () => {
             await sequelize.authenticate();
             break;
         } catch (error) {
-            console.error(error);
+            //            console.error(error);
             retries -= 1;
             await new Promise((res, rej) => {
                 setTimeout(res, 2000);
             });
         }
     }
-};
-
-const readCommands = async () => {
-    let commands = new Map();
-    let categories = await readdir(path.resolve(__dirname, "commands"));
-    console.log("Categories:", categories);
-    //for (let i = 0; i < categories.length; i++) {}
-    /**fs.readdir(path.resolve(__dirname, "commands"), async (err, files) => {
-        if (err) throw err;
-        for (let i = 0; i < files.length; i++) {
-            let commandName = files[i].split(".")[0] as string;
-            commands.set(commandName);
-        }
-    });*/
 };
 
 (() => {

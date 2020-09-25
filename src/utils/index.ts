@@ -1,4 +1,4 @@
-import { Client, GuildMember, Role } from "discord.js";
+import { Client, GuildMember } from "discord.js";
 import Configuration from "../database/models/Configuration";
 import fs from "fs";
 import path from "path";
@@ -55,21 +55,40 @@ export const verifyDatabase = async (client: Client) => {
     }
 };
 
-export const registerCommands = async (client: Client) => {
-    let files: any = null;
-    let commands = [];
-    try {
-        files = await readdir(path.resolve(__dirname, "../commands"));
-        files = files.map((file) => file.split(/\./g)[0]);
-        //files = files.filter((file) => file !== "help");
-    } catch (error) {
-        console.error(error);
+export const loadCommands = async (client: Client) => {
+    let paths = new Map();
+    let categories = await readdir(
+        path.resolve(__dirname, "../commands")
+    ).catch((err) => {
+        throw err;
+    });
+
+    client["categories"] = categories;
+    for (let i = 0; i < categories.length; i++) {
+        let cmds = await readdir(
+            path.resolve(__dirname, "../commands", categories[i])
+        );
+        for (let j = 0; j < cmds.length; j++) {
+            let commandName = cmds[j].split(".")[0] as string;
+            paths.set(
+                commandName,
+                path.resolve(__dirname, "../commands", categories[i], cmds[j])
+            );
+        }
     }
-    for (let cmd of files) {
-        const Command = (await import(`../commands/${cmd}`)).default;
+    return paths;
+};
+
+//TODO: Change path
+export const registerCommands = async (client: Client) => {
+    let files: Map<string, string> = await loadCommands(client);
+    let commands = [];
+    for (let [key, value] of files) {
+        const Command = (await import(value)).default;
         const c = new Command(this._client, this._args, this._message);
         commands.push({
-            name: cmd,
+            name: key,
+            path: value,
             help: c._help,
             example: c._example,
             category: c._category,

@@ -1,6 +1,5 @@
-import { Client, Message, Permissions, GuildMember, Role } from "discord.js";
-import { Constants, unMuteUser } from "../utils/utils";
-import Configuration from "../database/models/Configuration";
+import { Client, Message, Permissions } from "discord.js";
+import { Constants, unMuteUser } from "../../utils/";
 //Command:
 /**
  * private _client: Client;

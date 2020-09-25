@@ -1,5 +1,5 @@
 import { Client, Message, Permissions, GuildMember } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Constants } from "../../utils/";
 //Command:
 /**
  * private _client: Client;
@@ -32,6 +32,12 @@ export default class Kick {
     }
 
     public async run() {
+        console.log(
+            "Bot's permissions:",
+            this._message.member.guild.me.permissions
+        );
+        console.log("User's permissions:", this._message.member.permissions);
+
         if (this._args.length === 0) {
             return this._message.channel.send(
                 `${Constants.PREFIX_FAILURE} Please provide the required paramenters.`
@@ -51,8 +57,9 @@ export default class Kick {
         try {
             kickedMember = await user.kick(reason);
         } catch (error) {
+            console.error(error);
             return this._message.channel.send(
-                `${Constants.PREFIX_FAILURE} I am lacking the permissions to do that!`
+                `${Constants.PREFIX_FAILURE} I don't have the permissions to do that!`
             );
         }
         this._message.channel.send(

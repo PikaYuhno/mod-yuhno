@@ -1,6 +1,6 @@
 import { Client, Message, Permissions } from "discord.js";
-import Configuration from "../database/models/Configuration";
-import { loadConfiguration, Constants } from "../utils/utils";
+import Configuration from "../../database/models/Configuration";
+import { loadConfiguration, Constants } from "../../utils/";
 
 export default class Prefix {
     private _client: Client;

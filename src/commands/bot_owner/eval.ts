@@ -1,5 +1,5 @@
-import { Client, Message, Permissions, GuildMember, User } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Client, Message } from "discord.js";
+import { Constants } from "../../utils/";
 import dotenv from "dotenv";
 dotenv.config();
 //Command:

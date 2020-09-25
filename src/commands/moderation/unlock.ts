@@ -1,5 +1,5 @@
 import { Client, Message, Permissions, GuildMember, User } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Constants } from "../../utils/";
 //Command:
 /**
  * private _client: Client;
@@ -12,15 +12,15 @@ import { Constants } from "../utils/utils";
  *
  * public async run();
  */
-export default class Lock {
+export default class Unlock {
     private _client: Client;
     private _args: Array<string>;
     private _message: Message;
     public requiredPermission: any = Permissions.FLAGS.MANAGE_CHANNELS;
     public _category: string = "moderation";
 
-    public _help: string = "Locks a textchannel";
-    public _example: Array<string> = ["lock [channelid|"];
+    public _help: string = "Unlocks a locked textchannel";
+    public _example: Array<string> = ["unlock", "unlock [channelid|"];
 
     constructor(client: Client, args: Array<string>, message: Message) {
         this._client = client;
@@ -29,7 +29,7 @@ export default class Lock {
     }
 
     public async run() {
-        const channelId = this._args[0];
+        const channelId = this._args[0] || this._message.channel.id;
         const channel = this._message.guild.channels.cache.get(channelId);
         if (!channel)
             return this._message.channel.send(
@@ -39,7 +39,7 @@ export default class Lock {
             channel.overwritePermissions([
                 {
                     id: this._message.guild.id,
-                    deny: ["ADD_REACTIONS", "SEND_MESSAGES"],
+                    allow: ["ADD_REACTIONS", "SEND_MESSAGES"],
                 },
             ]);
         } catch (error) {
@@ -49,7 +49,7 @@ export default class Lock {
             );
         }
         this._message.channel.send(
-            `${Constants.PREFIX_SUCCESS} Successfully locked channel **${channel.name}**!`
+            `${Constants.PREFIX_SUCCESS} Successfully unlocked channel **${channel.name}**!`
         );
     }
 }

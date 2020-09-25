@@ -1,5 +1,5 @@
 import { Client, Message, Permissions, MessageEmbed } from "discord.js";
-import { Constants } from "../utils/utils";
+import { Constants } from "../../utils/";
 
 export default class Avatar {
     private _client: Client;

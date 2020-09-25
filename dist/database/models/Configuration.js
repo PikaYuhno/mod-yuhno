@@ -6,26 +6,27 @@ class Configuration extends sequelize_1.Model {
 }
 exports.default = Configuration;
 let defaultConfig = JSON.stringify({
-    "prefix": "$",
-    "muted_role": "",
-    "message_log": ""
+    prefix: "$",
+    muted_role: "",
+    message_log: "",
+    default_role: "",
 });
 Configuration.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     guildId: {
         type: sequelize_1.DataTypes.STRING(255),
-        allowNull: false
+        allowNull: false,
     },
     config: {
         type: sequelize_1.DataTypes.STRING(255),
-        defaultValue: defaultConfig
-    }
+        defaultValue: defaultConfig,
+    },
 }, {
     sequelize: dbconnection_1.sequelize,
-    tableName: 'configurations'
+    tableName: "configurations",
 });
 Configuration.sync();

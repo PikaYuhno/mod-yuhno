@@ -23,13 +23,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
-const client = new discord_js_1.Client();
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-(() => {
-    fs_1.default.readdir(path_1.default.resolve(__dirname, 'events'), async (err, files) => {
+const utils_1 = require("./utils/");
+const dbconnection_1 = require("./database/connection/dbconnection");
+const util_1 = __importDefault(require("util"));
+const client = new discord_js_1.Client();
+dotenv_1.default.config();
+const readdir = util_1.default.promisify(fs_1.default.readdir);
+const connectionTest = async () => {
+    let retries = 5;
+    while (retries) {
+        try {
+            dbconnection_1.createConnection();
+            await dbconnection_1.sequelize.authenticate();
+            break;
+        }
+        catch (error) {
+            //            console.error(error);
+            retries -= 1;
+            await new Promise((res, rej) => {
+                setTimeout(res, 2000);
+            });
+        }
+    }
+};
+(async () => {
+    await connectionTest();
+    await utils_1.registerCommands(client);
+    await utils_1.runAllCrons(client);
+    fs_1.default.readdir(path_1.default.resolve(__dirname, "events"), async (err, files) => {
         if (err)
             throw err;
         for (let i = 0; i < files.length; i++) {

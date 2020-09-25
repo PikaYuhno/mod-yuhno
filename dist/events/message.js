@@ -22,30 +22,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const utils_1 = require("../utils/");
 exports.default = async (client, message) => {
-    console.log("-----------Messge------------\n");
     if (message.author.bot)
         return;
-    let prefix = client['guildConfig'].get(message.guild.id).prefix;
-    console.log("Prefix:", prefix);
-    console.log("Config", client['guildConfig'].get(message.guild.id));
-    console.log("Content:", message.content);
+    if (!message.guild)
+        return;
+    //    console.log("-----------Messge------------\n");
+    let prefix = client["guildConfig"].get(message.guild.id).prefix;
+    //    console.log("Prefix:", prefix);
+    //    console.log("Config", client["guildConfig"].get(message.guild.id));
+    /**const escapeRegex = (str: string) =>
+        str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");*/
+    const prefixRegex = new RegExp(`^<@!${client.user.id}>\s*$`);
+    if (prefixRegex.test(message.content))
+        return message.reply(`My Prefix is \`${prefix}\`, try \`${prefix}help\` for more information`);
     if (!message.content.startsWith(prefix))
         return;
-    let args = message.content.slice(prefix.length).trim().split(/s+/g);
+    let args = message.content.slice(prefix.length).trim().split(/\s+/g);
     let cmd = args.shift().toLowerCase();
-    fs_1.default.readdir(path_1.default.resolve(__dirname, '../commands/'), async (err, files) => {
-        if (err)
-            throw err;
-        for (let i = 0; i < files.length; i++) {
-            const Command = (await Promise.resolve().then(() => __importStar(require(`../commands/${cmd}`)))).default;
-            const c = new Command(client, args, message);
-            if ((typeof c.requiredPermission !== 'string' && message.member.hasPermission(c.requiredPermission))
-                || typeof c.requiredPermission === 'string' && c.requiredPermission === 'BOT_OWNER') {
-                c.run();
-            }
-        }
-    });
+    //Check if command exist
+    if (!client["commands"].find((c) => c.name === cmd))
+        return;
+    //   console.log("Command:", cmd, "Args:", args);
+    const Command = (await Promise.resolve().then(() => __importStar(require(client["commands"].find((c) => c.name === cmd).path)))).default;
+    const c = new Command(client, args, message);
+    if ((typeof c.requiredPermission !== "string" &&
+        message.member.hasPermission(c.requiredPermission)) ||
+        (typeof c.requiredPermission === "string" &&
+            c.requiredPermission === "BOT_OWNER" &&
+            process.env.BOT_OWNER === message.author.id)) {
+        c.run();
+    }
+    else {
+        console.log(`User: ${message.member.user} doesn't have the Permission!`);
+        return message.channel.send(`${utils_1.Constants.PREFIX_FAILURE} You don't have the permission to execute this command!`);
+    }
 };

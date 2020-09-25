@@ -39,6 +39,7 @@ export default class Help {
 
         let commands = this._client["commands"];
         for (let i = 0; i < categories.length; i++) {
+            if (categories[i] === "bot_owner") continue;
             let field = { name: `**${categories[i]}**` };
             let value = "";
             for (let c of commands) {

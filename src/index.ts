@@ -31,10 +31,10 @@ const connectionTest = async () => {
     }
 };
 
-(() => {
-    connectionTest();
-    registerCommands(client);
-    runAllCrons(client);
+(async () => {
+    await connectionTest();
+    await registerCommands(client);
+    await runAllCrons(client);
     fs.readdir(path.resolve(__dirname, "events"), async (err, files) => {
         if (err) throw err;
         for (let i = 0; i < files.length; i++) {

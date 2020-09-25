@@ -9,6 +9,6 @@ exports.default = async (client, guild) => {
     if (count !== 0)
         return;
     const createdConfig = await Configuration_1.default.create({ guildId: guild.id });
-    client['guildConfig'].set(guild.id, JSON.parse(createdConfig.config));
-    console.log("-----------GuildConfig------------\n", client['guildConfig']);
+    client["guildConfig"].set(guild.id, JSON.parse(createdConfig.config));
+    console.log("-----------GuildConfig------------\n", client["guildConfig"]);
 };

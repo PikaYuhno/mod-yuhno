@@ -6,10 +6,7 @@ import { Constants } from "../utils/";
 export default async (client: Client, message: Message) => {
     if (message.author.bot) return;
     if (!message.guild) return;
-    //    console.log("-----------Messge------------\n");
     let prefix = client["guildConfig"].get(message.guild.id).prefix;
-    //    console.log("Prefix:", prefix);
-    //    console.log("Config", client["guildConfig"].get(message.guild.id));
 
     /**const escapeRegex = (str: string) =>
         str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");*/
@@ -24,14 +21,10 @@ export default async (client: Client, message: Message) => {
     let args = message.content.slice(prefix.length).trim().split(/\s+/g);
     let cmd = args.shift().toLowerCase();
 
-    //Check if command exist
-    if (!client["commands"].find((c) => c.name === cmd)) return;
+    if (!client.commands.get(cmd) || !client.paths.get(cmd)) return;
 
-    //   console.log("Command:", cmd, "Args:", args);
-    const Command = (
-        await import(client["commands"].find((c) => c.name === cmd).path)
-    ).default;
-    const c = new Command(client, args, message);
+    const Command = (await import(client.paths.get(cmd))).default;
+    const c = new Command();
     if (
         (typeof c.requiredPermission !== "string" &&
             message.member.hasPermission(c.requiredPermission)) ||
@@ -39,11 +32,8 @@ export default async (client: Client, message: Message) => {
             c.requiredPermission === "BOT_OWNER" &&
             process.env.BOT_OWNER === message.author.id)
     ) {
-        c.run();
+        c.run(client, args, message);
     } else {
-        console.log(
-            `User: ${message.member.user} doesn't have the Permission!`
-        );
         return message.channel.send(
             `${Constants.PREFIX_FAILURE} You don't have the permission to execute this command!`
         );

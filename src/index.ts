@@ -3,14 +3,21 @@ import env from "dotenv";
 import fs from "fs";
 import path from "path";
 import { registerCommands, runAllCrons } from "./utils/";
-import {
-    sequelize,
-    createConnection,
-} from "./database/connection/dbconnection";
+import { sequelize, createConnection } from "./database/connection/";
+import Command from "./commands/Command";
 import util from "util";
 
 const client = new Client();
 env.config();
+
+declare module "discord.js" {
+    export interface Client {
+        commands: Map<string, Command>;
+        paths: Map<string, string>;
+        guildConfig: Map<string, object>;
+        categories: Array<string>;
+    }
+}
 
 const readdir = util.promisify(fs.readdir);
 
@@ -22,7 +29,6 @@ const connectionTest = async () => {
             await sequelize.authenticate();
             break;
         } catch (error) {
-            //            console.error(error);
             retries -= 1;
             await new Promise((res, rej) => {
                 setTimeout(res, 2000);

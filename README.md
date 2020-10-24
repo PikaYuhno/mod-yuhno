@@ -41,4 +41,6 @@ This should be a moderation bot written in TypeScript.
 - [X] `unlock [channelid]`
 - [X] `voicemove [channelid]`
 
-
+### Other
+- [ ] `poll *[title]* --duration=<hour>:<minute>`
+- [ ] `random`

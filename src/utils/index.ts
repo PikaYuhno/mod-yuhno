@@ -1,15 +1,22 @@
 import { Client, GuildMember } from "discord.js";
-import Configuration from "../database/models/Configuration";
+import GuildConfig from "../database/models/GuildConfig";
 import fs from "fs";
 import path from "path";
 import util from "util";
 const readdir = util.promisify(fs.readdir);
-import cron from "node-cron";
+import cron, { ScheduledTask } from "node-cron";
 import Schedules from "../database/models/Schedules";
+import CommandConfig from "../database/models/CommandConfig";
+
+type CronTask = {
+    guildId: string;
+    userId: string;
+    job: ScheduledTask;
+};
 
 export const loadConfiguration = async (client: Client) => {
     client["guildConfig"] = new Map();
-    const data = await Configuration.findAll();
+    const data = await GuildConfig.findAll();
     for (let item of data) {
         client["guildConfig"].set(item.guildId, JSON.parse(item.config));
     }
@@ -22,30 +29,32 @@ export const runAllCrons = async (client: Client) => {
         let finish = new Date(schedule.finish);
         cron.schedule(dateToPattern(finish), async () => {
             const guild = client.guilds.cache.get(schedule.guildId);
-            const member = guild.members.cache.get(schedule.userId);
-            unMuteUser(
-                await getMutedRoleByGuildId(client, schedule.guildId),
-                member,
-                guild.id
-            );
+            const member = guild!.members.cache.get(schedule.userId);
+            if (member) {
+                unMuteUser(
+                    await getMutedRoleByGuildId(client, schedule.guildId),
+                    member!,
+                    guild!.id
+                );
+            }
         });
     }
 };
 
 export const getMutedRoleByGuildId = async (client: Client, id: string) => {
     return client.guilds.cache
-        .get(id)
-        .roles.cache.find((role) => role.name === "Muted").id;
+        .get(id)!
+        .roles.cache.find((role) => role.name === "Muted")!.id;
 };
 
 export const verifyDatabase = async (client: Client) => {
     for (let guild of client.guilds.cache.values()) {
-        const count = await Configuration.count({
+        const count = await GuildConfig.count({
             where: { guildId: guild.id },
         });
         console.log("Count:", count);
         if (count === 0) {
-            const created = await Configuration.create({
+            const created = await GuildConfig.create({
                 guildId: guild.id,
             });
             console.log(created);
@@ -55,7 +64,7 @@ export const verifyDatabase = async (client: Client) => {
     }
 };
 
-export const loadCommands = async (client: Client) => {
+export const loadPaths = async (client: Client) => {
     let paths = new Map();
     let categories = await readdir(
         path.resolve(__dirname, "../commands")
@@ -63,7 +72,7 @@ export const loadCommands = async (client: Client) => {
         throw err;
     });
 
-    client["categories"] = categories;
+    client.categories = categories;
     for (let i = 0; i < categories.length; i++) {
         let cmds = await readdir(
             path.resolve(__dirname, "../commands", categories[i])
@@ -79,22 +88,16 @@ export const loadCommands = async (client: Client) => {
     return paths;
 };
 
-//TODO: Change path
 export const registerCommands = async (client: Client) => {
-    let files: Map<string, string> = await loadCommands(client);
-    let commands = [];
+    let files: Map<string, string> = await loadPaths(client);
+    let commands = new Map();
     for (let [key, value] of files) {
         const Command = (await import(value)).default;
-        const c = new Command(this._client, this._args, this._message);
-        commands.push({
-            name: key,
-            path: value,
-            help: c._help,
-            example: c._example,
-            category: c._category,
-        });
+        const c = new Command();
+        commands.set(key, c);
     }
-    client["commands"] = commands;
+    client.commands = commands;
+    client.paths = files;
 };
 
 export const runCronJob = async (
@@ -111,14 +114,14 @@ export const runCronJob = async (
      */
 
     let job = cron.schedule(pattern, () => {
-        this.unMuteUser(mutedRole, member, guildId);
+        unMuteUser(mutedRole, member, guildId);
     });
     await Schedules.create({
         guildId,
         userId: member.id,
         finish: patternToDate(pattern),
     });
-    let entry = {
+    let entry: CronTask = {
         guildId,
         userId: member.id,
         job,
@@ -126,7 +129,7 @@ export const runCronJob = async (
     crons.push(entry);
 };
 
-export const crons = [];
+export const crons: CronTask[] = [];
 
 export const patternToDate = (pattern: string) => {
     // * * * * * *

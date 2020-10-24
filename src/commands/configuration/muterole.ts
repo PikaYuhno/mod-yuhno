@@ -1,24 +1,16 @@
 import { Guild, Client, Message, Permissions } from "discord.js";
 import { Constants } from "../../utils/";
+import Command from "../Command";
 
-export default class MuteRole {
-    private _client: Client;
-    private _args: Array<string>;
-    private _message: Message;
-    public requiredPermission: any = Permissions.FLAGS.MANAGE_ROLES;
+export default class MuteRole implements Command {
+    public requiredPermission: number = Permissions.FLAGS.MANAGE_ROLES;
     public _category: string = "configuration";
+    public _name: string = "muterole";
+    public _help: string = "Creates the mute role";
+    public _example: Array<string> = ["muterole"];
 
-    private _help: string = "Creates the mute role";
-    private _example: Array<string> = ["muterole"];
-
-    constructor(client: Client, args: Array<string>, message: Message) {
-        this._client = client;
-        this._args = args;
-        this._message = message;
-    }
-
-    public async run() {
-        const guild: Guild = this._message.guild;
+    public async run(client: Client, args: Array<string>, message: Message) {
+        const guild: Guild = message.guild;
         try {
             guild.roles.create({
                 data: {
@@ -27,12 +19,12 @@ export default class MuteRole {
                     permissions: 0,
                 },
             });
-            this._message.channel.send(
+            message.channel.send(
                 `${Constants.PREFIX_SUCCESS} Successfully created **Muterole**!`
             );
         } catch (error) {
             console.error(error);
-            this._message.channel.send(
+            message.channel.send(
                 `${Constants.PREFIX_FAILURE} Something went wrong! Error: ${error}`
             );
         }

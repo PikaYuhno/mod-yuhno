@@ -1,35 +1,17 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 import { Constants } from "../../utils/";
-//Command:
-/**
- * private _client: Client;
- * private _cmd: string;
- * private _args: Array<string>;
- * private _message: Message;
- * private _permission: Permissions;
- * private _help: string;
- * private _examples: Array<string>;
- *
- * public async run();
- */
-export default class Guilds {
-    private _client: Client;
-    private _args: Array<string>;
-    private _message: Message;
-    public requiredPermission: any = "BOT_OWNER";
-    public _category: string = "OWNER";
+import Command from "../Command";
 
+export default class Guilds implements Command {
+    public requiredPermission: string = "BOT_OWNER";
+
+    public _name: string = "guilds";
+    public _category: string = "OWNER";
     public _help: string = "List all guilds in which the bot is in";
     public _example: Array<string> = ["guilds"];
 
-    constructor(client: Client, args: Array<string>, message: Message) {
-        this._client = client;
-        this._args = args;
-        this._message = message;
-    }
-
-    public async run() {
-        let guilds = this._client.guilds.cache;
+    public async run(client: Client, args: Array<string>, message: Message) {
+        let guilds = client.guilds.cache;
         for (let guild of guilds.values()) {
             const embed = new MessageEmbed()
                 .setTitle(guild.name)
@@ -40,11 +22,10 @@ export default class Guilds {
                 ${Constants.BULLET_POINT} Member count: **${
                         guild.members.cache.filter((member) => member.user.bot)
                             .size
-                    }**
-            `
+                    }**`
                 )
                 .setThumbnail(guild.iconURL());
-            this._message.channel.send(embed);
+            message.channel.send(embed);
         }
     }
 }

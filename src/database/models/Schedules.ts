@@ -1,4 +1,4 @@
-import { sequelize } from "../connection/dbconnection";
+import { sequelize } from "../connection/";
 import { Model, DataTypes } from "sequelize";
 
 export default class Schedules extends Model {

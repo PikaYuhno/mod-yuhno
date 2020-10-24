@@ -1,26 +1,24 @@
-import { sequelize } from "../connection/dbconnection";
+import { sequelize } from "../connection/";
 import { Model, DataTypes } from "sequelize";
-export default class GuildConfig extends Model {
+export default class Configuration extends Model {
     public id: number;
     public guildId: string;
     //Config
     public prefix: string;
     public muted_role: string;
     public message_log: string;
-    //public random_role: string;
-    //public random_permitted_roles: Array<string>;
 
     public createdAt: Date;
     public updatedAt: Date;
 }
-let defaultConfig = JSON.stringify({
+/**let defaultConfig = JSON.stringify({
     prefix: "$",
     muted_role: "",
     message_log: "",
     default_role: "",
-});
+});*/
 
-GuildConfig.init(
+Configuration.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -43,20 +41,11 @@ GuildConfig.init(
             type: DataTypes.STRING(255),
             defaultValue: "",
         },
-        //TODO:
-        // put them in a serperate table
-        /**random_role: {
-            type: DataTypes.STRING(255),
-            defaultValue: "",
-        },
-        random_permitted_roles: {
-            type: DataTypes.ARRAY,
-            defaultValue: "",
-        },*/
     },
     {
         sequelize,
-        tableName: "configurations",
+        tableName: "guild_config",
     }
 );
-GuildConfig.sync();
+
+Configuration.sync();
